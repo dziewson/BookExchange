@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+
+<title>Edit</title>
+
+<meta charset="utf-8" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<link href="css/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="css/bootstrap-4.0.0-alpha.6.css" type="text/css"
+	rel="stylesheet">
+</head>
+<body>
+	<div th:replace="fragments/menu :: menu" th:remove="tag"></div>
+	<h1 class="text-success text-center">
+		Hi, <span th:text="${user.username}"></span>
+	</h1>
+	
+	<!--  ------------------------------------------------------------------------------------------------------------------------------------- -->
+	<form method="post" th:object="${profileImage}"
+		enctype="multipart/form-data" th:action="@{/changeUserImage}">
+		<div class="text-center">
+			<img class="rounded-circle" th:src="${avatar}"
+				style="width: 128px; height: 128px;" />
+		</div>
+		<h5 class="text-center">Change photo</h5>
+		<div class="text-center">
+			<label class="btn btn-primary" for="my-file-selector"
+				style="margin-top: 8px">Choose <input type="file"
+				name="file" size="60" id="my-file-selector" style="display: none;" />
+			</label>
+			<button type="submit" class="btn btn-primary">Save</button>
+
+		</div>
+	</form>
+	<div class="text-center" ><form action="#" th:action="@{${'changePassword/' + user.ID}}"
+		th:object="${User}" method="post">
+		<button type="submit" class="btn navbar-btn text-right btn-info m-1">Change
+			password</button>
+	</form>
+	</div>
+	<!--  ------------------------------------------------------------------------------------------------------------------------------------- -->
+	<form action="#" th:action="@{/editCurrentUser}" th:object="${user}"
+		method="POST" enctype="utf8">
+		<input type="hidden" th:field="*{ID}" /> <input type="hidden"
+			class="form-control" th:value="${user.username}"
+			th:field="*{username}"> <input type="hidden"
+			class="form-control" th:value="${user.password}"
+			th:field="*{password}"> <input type="hidden"
+			class="form-control" th:value="${user.matchingPassword}"
+			th:field="*{matchingPassword}"> <input type="hidden"
+			th:value="${user.image}" th:field="*{image}" />
+		<table class="table table-hover text-centered"
+			style="margin-left: 15%">
+
+			<tr>
+			<tr>
+				<td style="text-align: right;"><p style="margin-top: 5px;">First
+						name:</p></td>
+				<td>
+					<div class="form-group" style="max-width: 30%; text-align: center;">
+						<input class="form-control" th:value="${user.firstName}"
+							th:field="*{firstName}">
+					</div>
+				</td>
+			<tr>
+				<td style="text-align: right;"><p style="margin-top: 5px;">Last
+						name:</p></td>
+				<td>
+					<div class="form-group" style="max-width: 30%; text-align: center;">
+						<input class="form-control" th:value="${user.lastName}"
+							th:field="*{lastName}" />
+
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align: right;"><p style="margin-top: 5px;">Email:</p></td>
+				<td>
+					<div class="form-group" style="max-width: 30%; text-align: center;">
+						<input type="email" class="form-control" th:value="${user.email}"
+							th:field="*{email}" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align: right">
+					<button type="submit" class="btn btn-success"
+						style="margin-top: 10px; margin-left: 18%">Submit</button>
+				</td>
+				<td style="text-align: left"><a href="/">
+						<button type="button" class="btn btn-success"
+							style="margin-top: 10px">Cancel</button>
+				</a></td>
+			</tr>
+
+
+		</table>
+	</form>
+	
+</body>
+</html>

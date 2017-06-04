@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<title>Users</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<link href="css/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="css/bootstrap-4.0.0-alpha.6.css" type="text/css"
+	rel="stylesheet">
+
+</head>
+<body>
+	<div th:replace="fragments/menu :: menu" th:remove="tag"></div>
+
+	<div sec:authorize="hasRole('ADMINISTRATOR')" class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Username</th>
+					<th>First name</th>
+					<th>Last name</th>
+					<th>Email</th>
+					<th>Roles</th>
+				</tr>
+			</thead>
+			<th:block th:each="User, stat : *{users}">
+				<tr>
+					<td style="width: 2%;" th:text="${User.ID}"></td>
+					<td style="width: 8%;" th:text="${User.username}"></td>
+					<td style="width: 8%;" th:text="${User.firstName}"></td>
+					<td style="width: 8%;" th:text="${User.lastName}"></td>
+					<td style="width: 16%;" th:text="${User.email}"></td>
+					<td style="width: 30%;"
+						th:text="${#strings.toLowerCase(#strings.replace(#strings.replace(#strings.replace(User.roles,'ROLE_',''),'[',''),']',''))}">
+					</td>
+					<td style="width: 5%;" th:object="${User}"
+						th:if="${not User.isSuperAdmin()}">
+						<form action="#" th:action="@{${'editUser/' + User.ID}}"
+							th:object="${User}" method="post">
+							<button type="submit"
+								class="btn navbar-btn text-left btn-info m-1">Edit</button>
+						</form>
+					</td>
+					<td style="width: 5%;" th:object="${User}"
+						th:if="${not User.isAdministrator()}">
+						<form action="#" th:action="@{${'removeUser/' + User.ID}}"
+							th:object="${User}" method="post">
+							<button type="submit"
+								class="btn navbar-btn text-left btn-info m-1">Delete</button>
+						</form>
+					</td>
+
+					<td th:object="${User}" style="width: 5%;">
+
+						<form action="#"
+							th:action="@{${'privateMessage/' + User.username}}"
+							th:object="${User}" method="get">
+
+							<button type="submit" class="btn btn-default">
+								<img src="/images/mail.png" />
+
+							</button>
+						</form>
+					</td>
+					<td th:object="${User}" style="width: 5%;">
+
+						<form action="#" th:action="@{${'showBooks/' + User.username}}"
+							th:object="${User}" method="get">
+
+							<button type="submit" class="btn btn-default">Books</button>
+						</form>
+					</td>
+
+				</tr>
+
+			</th:block>
+		</table>
+	</div>
+
+	<!--  ----------------------------------------USER-------------------------------------------------------------- -->
+	<div
+		sec:authorize="!hasRole('ADMINISTRATOR') and !hasRole('SUPERADMINISTRATOR')"
+		class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Username</th>
+					<th>First name</th>
+					<th>Last name</th>
+					<th>Roles</th>
+				</tr>
+			</thead>
+			<th:block th:each="User, stat : *{users}">
+				<tr>
+					<td th:text="${User.username}"></td>
+					<td th:text="${User.firstName}"></td>
+					<td th:text="${User.lastName}"></td>
+					<td th:text="${User.roles}"></td>
+					<td th:object="${User}" style="width: 5%;">
+
+						<form action="#"
+							th:action="@{${'privateMessage/' + User.username}}"
+							th:object="${User}" method="get">
+
+							<button type="submit" class="btn btn-default">
+								<img src="/images/mail.png" />
+
+							</button>
+						</form>
+					</td>
+					<td th:object="${User}" style="width: 5%;">
+
+						<form action="#" th:action="@{${'showBooks/' + User.username}}"
+							th:object="${User}" method="get">
+
+							<button type="submit" class="btn btn-default">Books</button>
+						</form>
+					</td>
+				</tr>
+			</th:block>
+		</table>
+
+	</div>
+
+</body>
+</html>

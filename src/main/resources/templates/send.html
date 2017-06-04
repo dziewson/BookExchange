@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Send</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="css/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="css/bootstrap-4.0.0-alpha.6.css" type="text/css"
+	rel="stylesheet">
+</head>
+<body>
+	<div th:replace="fragments/menu :: menu" th:remove="tag"></div>
+	<form action="#" th:action="@{/sendMessage}" th:object="${messageUtil}"
+		method="POST" enctype="utf8" style="margin-top: 2%"
+		id="sendMessageForm">
+		<div class="form-group"
+			style="max-width: 150px; margin-left: 35%; text-align: center;" th:switch="${reciverName}">			
+			<p th:case="''" ><input class="form-control" placeholder="To" th:field="*{to}" > </p>
+			<p  th:case="*"><input class="form-control" id="to" th:field="*{to}"  > </p>
+		</div>
+		<div class="form-group"	
+			style="max-width: 30%; margin-left: 35%; text-align: center;">
+			<input class="form-control" placeholder="Title" th:field="*{title}">
+		</div>
+		<div class="form-group"
+			style="width: 30%; margin-left: 35%; text-align: center;">
+			<textarea class="form-control" rows="20" cols="50"
+				th:field="*{message}" form="sendMessageForm"> Your text</textarea>
+
+		</div>
+
+		<button type="submit" class="btn btn-success" style="margin-top: 2px; margin-left: 60%;">Send</button>
+	</form>
+	
+	
+<script type="text/javascript" th:inline="javascript">
+
+
+var message =[[${reciverName}]];
+
+
+
+        document.getElementById("to").value = message	;
+</script>
+
+</body>
+
+</html>

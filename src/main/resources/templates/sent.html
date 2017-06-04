@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Sent</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="css/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="css/bootstrap-4.0.0-alpha.6.css" type="text/css"
+	rel="stylesheet">
+</head>
+<body>
+	<div th:replace="fragments/menu :: menu" th:remove="tag"></div>
+	<div class="table-responsive">
+		<table class="table table-hover text-centered">
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>To</th>
+					<th>Date</th>
+				</tr>
+			</thead>
+			<th:block th:each="message : ${messages}">
+
+				<tr th:attr="data-target='#'+${message.id}" data-toggle="modal">
+					<td th:text="${message.title}"></td>
+					<td th:text="${message.reciverName}"></td>
+					<td th:text="${message.date}"></td>
+
+
+				</tr>
+				<div th:id="${message.id}" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								
+								<h5 class="modal-title" style="margin-right: 100%" >To: <span  th:text="${message.reciverName}" ></span>
+								Title: <span  th:text="${message.title}" ></span>
+								</h5>
+							</div>
+							<div class="modal-body">
+								<div th:text="${message.text}"></div>
+								
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Close</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+
+			</th:block>
+		</table>
+	</div>
+
+
+	
+
+</body>
+</html>

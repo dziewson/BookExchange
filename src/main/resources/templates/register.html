@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Sing up</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="css/font-awesome.min.css" type="text/css"
+	rel="stylesheet">
+<link href="css/bootstrap-4.0.0-alpha.6.css" type="text/css"
+	rel="stylesheet">
+</head>
+<body>
+	<div th:replace="fragments/menu :: menu" th:remove="tag"> </div>
+	<div class="py-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="text-center text-warning">Sing up!</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+	<form action="#" th:action="@{/register}" th:object="${user}"
+		method="POST" enctype="utf8">
+		<div class="form-group"
+			style="max-width: 30%; margin-left: 35%; text-align: center;">
+			<input class="form-control" placeholder="login"
+				th:field="*{username}">
+			<p th:each="error: ${#fields.errors('username')}" th:text="${error}"></p>
+		</div>
+		<div class="form-group"
+			style="max-width: 30%; margin-left: 35%; text-align: center;">
+			<input class="form-control" placeholder="first name"
+				th:field="*{firstName}">
+			<p th:each="error: ${#fields.errors('firstName')}" th:text="${error}"></p>
+		</div>
+		<div class="form-group"
+			style="max-width: 30%; margin-left: 35%; text-align: center;">
+			<input class="form-control" placeholder="last name"
+				th:field="*{lastName}" />
+			<p th:each="error : ${#fields.errors('lastName')}" th:text="${error}"></p>
+		</div>
+		<div class="form-group"
+			style="max-width: 30%; margin-left: 35%; text-align: center;">
+			<input type="email" class="form-control" placeholder="email"
+				th:field="*{email}" />
+			<p th:each="error : ${#fields.errors('email')}" th:text="${error}"></p>
+		</div>
+		<div class="form-group"
+			style="max-width: 30%; margin-left: 35%; text-align: center;">
+			<input type="password" class="form-control" placeholder="password"
+				th:field="*{password}">
+			<p th:each="error: ${#fields.errors('password')}" th:text="${error}"></p>
+		</div>
+		<div class="form-group"
+			style="max-width: 30%; margin-left: 35%; text-align: center;">
+			<input type="password" class="form-control"
+				placeholder="repeat password" th:field="*{matchingPassword}">
+				
+			<button type="submit" class="btn btn-primary"
+				style="margin-top: 10px">Submit</button>
+		</div>
+	</form>
+
+</body>
+
+</html>

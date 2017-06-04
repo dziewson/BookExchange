@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" th:fragment="menu"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="/BookExchange/src/main/resources/static/css/font-awesome.min.css"
+	type="text/css">
+<link rel="stylesheet"
+	href="/BookExchange/src/main/resources/static/css/bootstrap-4.0.0-alpha.6.css"
+	type="text/css">
+
+
+
+
+</head>
+
+<body>
+
+
+<div>
+
+
+<nav class="navbar navbar-expand-md navbar-light ">
+		<button class="navbar-toggler navbar-toggler-right" type="button"
+			data-toggle="collapse" data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse justify-content-end"
+			id="navbarSupportedContent">
+			<a href="/" class="btn navbar-btn text-left btn-primary m-1">Home</a>
+			<a href="/login" class="btn navbar-btn text-left btn-primary m-1"
+				sec:authorize="isAnonymous()">Login</a> <a href="/logout"
+				th:href="@{/logout}"
+				class="btn navbar-btn text-left btn-primary m-1"
+				sec:authorize="isAuthenticated()">Logout</a> <a href="/users"
+				class="btn navbar-btn text-left btn-primary m-1"
+				sec:authorize="isAuthenticated()">Users</a>
+			<div sec:authorize="isAuthenticated()" class="dropdown">
+				<button class="btn btn-primary dropdown-toggle m-1" type="button"
+					data-toggle="dropdown">
+					Messages <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+					<li><a class="dropdown-item" href="send">Send</a></li>
+					<li><a class="dropdown-item" href="sent">Sent</a></li>
+					<li><a class="dropdown-item" href="recived">Recived</a></li>
+				</ul>
+			</div>
+
+
+
+
+			<a href="/userpanel" th:href="@{/userpanel}"
+				class="btn navbar-btn text-left btn-primary m-1"
+				sec:authorize="isAuthenticated()">User panel</a> <a href="/register"
+				class="btn navbar-btn btn-primary m-1" sec:authorize="isAnonymous()">Regsiter</a>
+		</div>
+
+</nav>
+<img src="images/header.jpg" style="width:100%" >
+</div>
+
+	
+	
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+	<script
+		src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
+
+</body>
+
+</html>

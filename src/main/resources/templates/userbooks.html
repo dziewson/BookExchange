@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<title>Books</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<link href="css/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="css/bootstrap-4.0.0-alpha.6.css" type="text/css"
+	rel="stylesheet">
+
+</head>
+<body>
+	<div th:replace="fragments/menu :: menu" th:remove="tag"></div>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Title</th>
+				<th>Author firstname</th>
+				<th>Author lastname</th>
+				<th>Edition</th>
+				<th>Owner</th>
+
+			</tr>
+		</thead>
+		<th:block th:each="Book  : *{books}">
+			<tr>
+				<td><img th:src="${Book.getDecodedImage()}"
+					style="max-width: 128px; max-height: 128px;" /></td>
+				<td th:text="${Book.title}"></td>
+				<td th:text="${Book.authorName}"></td>
+				<td th:text="${Book.authorLastName}"></td>
+				<td th:text="${Book.edition}"></td>
+				<td>
+					<form action="#"
+						th:action="@{${'userbooks/' + Book.ownerName}}"
+						th:object="${Book}" method="get">
+
+						<button type="submit" class="btn btn-secondary" style="border:none;">	<span th:text="${Book.ownerName}"> </span></button>
+					
+					</form>
+
+
+				</td>
+		</th:block>
+	</table>
+
+</body>
+</html>

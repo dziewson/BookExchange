@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+<title>Edit</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<link href="css/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="css/bootstrap-4.0.0-alpha.6.css" type="text/css"
+	rel="stylesheet">
+</head>
+<body>
+
+	<div th:replace="fragments/menu :: menu" th:remove="tag"></div>
+	<form action="#" th:action="@{/editSelectedUser}" th:object="${user}"
+		method="POST" enctype="utf8">
+		<input type="hidden" th:field="*{ID}" /> <input type="hidden"
+			class="form-control" th:value="${user.password}"
+			th:field="*{password}"> <input type="hidden"
+			class="form-control" th:value="${user.matchingPassword}"
+			th:field="*{matchingPassword}">
+		<table class="table table-hover text-centered"
+			style="margin-left: 15%">
+
+
+			<tr>
+				<td style="text-align: right;"><p style="margin-top: 5px;">Login:</p></td>
+				<td>
+					<div class="form-group" style="max-width: 30%; text-align: center;">
+						<input class="form-control" th:value="${user.username}"
+							th:field="*{username}">
+					</div>
+				</td>
+			<tr>
+				<td style="text-align: right;"><p style="margin-top: 5px;">First
+						name:</p></td>
+				<td>
+					<div class="form-group" style="max-width: 30%; text-align: center;">
+						<input class="form-control" th:value="${user.firstName}"
+							th:field="*{firstName}">
+					</div>
+				</td>
+			<tr>
+				<td style="text-align: right;"><p style="margin-top: 5px;">Last
+						name:</p></td>
+				<td>
+					<div class="form-group" style="max-width: 30%; text-align: center;">
+						<input class="form-control" th:value="${user.lastName}"
+							th:field="*{lastName}" />
+
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align: right;"><p style="margin-top: 5px;">Email:</p></td>
+				<td>
+					<div class="form-group" style="max-width: 30%; text-align: center;">
+						<input type="email" class="form-control" th:value="${user.email}"
+							th:field="*{email}" />
+					</div>
+				</td>
+			</tr>
+			<tr th:each="role : ${allRoles}">
+
+				<td th:if="${role.role!='ROLE_SUPERADMINISTRATOR'}"><input
+					style="float: right; margin-top: 8px" type="checkbox"
+					th:checked="${role.role=='ROLE_USER' or (role.role=='ROLE_MODERATOR' and user.isModerator()) or (role.role=='ROLE_ADMINISTRATOR' and user.isAdministrator()) }"
+					name="newRoles" id="checkBox" th:value="${role.id}"></td>
+				<td th:if="${role.role!='ROLE_SUPERADMINISTRATOR'}"><p
+						th:text="${#strings.toLowerCase(#strings.replace(role.role, 'ROLE_', ''))}"
+						th:value="${role.id}"></p></td>
+
+			</tr>
+			<tr>
+				<td style="text-align: right">
+					<button type="submit" class="btn btn-success"
+						style="margin-top: 10px; margin-left: 18%">Submit</button>
+				</td>
+				<td style="text-align: left"><a th:href="users">
+						<button type="button" class="btn btn-success"
+							style="margin-top: 10px">Cancel</button>
+				</a></td>
+			</tr>
+
+
+		</table>
+	</form>
+	
+</body>
+</html>

@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+<title>Home</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<link href="css/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="css/bootstrap-4.0.0-alpha.6.css" type="text/css"
+	rel="stylesheet">
+</head>
+<body>
+
+	<div th:replace="fragments/menu :: menu" th:remove="tag"></div>
+	<h5 sec:authorize="isAuthenticated()" class="text-left"></h5>
+
+
+	<table sec:authorize="isAuthenticated()" class='table borderless'>
+
+		<tr>
+			<td style="width: 15%"></td>
+			<td style="width: 10%"><a th:href="userpanel"><img
+					th:src="${avatar}" style="max-width: 128px; max-height: 128px;" />
+			</a>
+				<p>
+					Hi, <span th:text="${user.username}"> </span>
+				</p>
+				<button class="btn navbar-btn text-left btn-info m-1"
+					data-toggle="modal" data-target="#addBookModal">Add book</button> <a
+				href="/login" class="btn navbar-btn text-left btn-info m-1">Find
+					book</a>
+
+				<form action="#" th:action="@{${'home/' + user.username}}"
+					th:object="${user}" method="get">
+
+					<button type="submit" class="btn navbar-btn text-left btn-info m-1">
+
+						Your books</button>
+				</form></td>
+
+			<td style="width: 45%">
+				<table class="table borderless">
+					<tr>
+						<td>
+							<form action="#" th:action="@{/home/publishPost}"
+								th:object="${post}" method="POST" enctype="utf8"
+								style="margin-top: 2%" id="postForm">
+								<div class="form-group" style="width:100%">
+									<textarea class="form-control" rows="3" cols="25"
+										th:field="*{text}" form="postForm"> Your text</textarea>
+
+								</div>
+
+								<button type="submit" class="btn btn-success"
+									style="margin-top: 2px; margin-left: 80%;">Send</button>
+							</form>
+						</td>
+					</tr>
+					<th:block th:each="Pos  : *{allPosts}">
+						
+						<tr>
+							<td bgcolor="#5BC0DE"th:text="${Pos.authorName} " style="text-align:center">  </td>  </tr>
+					<tr >
+							<td th:text="${Pos.text}" style="border-top: none !important; border-bottom:2px"></td> </tr>
+					
+					</th:block>
+
+
+				</table>
+			</td>
+			<td>
+				<table class="table borderless">
+
+					<th:block th:each="Book  : *{books}">
+						<tr>
+						</tr>
+
+					</th:block>
+				</table>
+
+
+
+
+			</td>
+
+			<td style="width: 10%"><h4 class="text-center">Moje ksiazki
+				</h4> <th:block th:each="Book  : *{books}">
+					<table class="table borderless">
+						<tr>
+							<td><img th:src="${Book.getDecodedImage()}"
+								style="max-width: 128px; max-height: 128px;" /></td>
+							<td th:text="${Book.title}"></td>
+						</tr>
+					</table></td>
+			</th:block>
+			<td style="width: 20%"></td>
+
+		</tr>
+
+
+
+
+
+	</table>
+
+
+	<div sec:authorize="isAnonymous()">
+		<h1 style="text-align: center">Please log in to take part in book
+			exchange!</h1>
+	</div>
+
+
+
+
+	<!-- Modal -->
+	<div id="addBookModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body">
+					<form action="#" th:action="@{/addBook}" th:object="${book}"
+						method="POST" enctype="utf8">
+						<table class='table borderless'>
+							<tr>
+								<td><input class="form-control" placeholder="Title"
+									th:field="*{title}" style="width: 30;" /></td>
+								<td><input class="form-control"
+									placeholder="Author first name" th:field="*{authorName}"
+									style="width: 30;" /></td>
+							</tr>
+							<tr>
+								<td><input class="form-control"
+									placeholder="Author Last name" th:field="*{authorLastName}"
+									style="width: 30;" /></td>
+								<td><input class="form-control" placeholder="Edition"
+									th:field="*{edition}" style="width: 30;" /></td>
+							</tr>
+							<tr>
+								<td>
+									<button type="submit" class="btn btn-success"
+										style="margin-left: 15px">Add</button>
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal">Close</button>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+
+
+			</div>
+
+		</div>
+	</div>
+
+
+
+
+
+
+
+</body>
+</html>
