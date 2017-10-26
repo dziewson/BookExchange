@@ -29,9 +29,7 @@
 					Hi, <span th:text="${user.username}"> </span>
 				</p>
 				<button class="btn navbar-btn text-left btn-info m-1"
-					data-toggle="modal" data-target="#addBookModal">Add book</button> <a
-				href="/login" class="btn navbar-btn text-left btn-info m-1">Find
-					book</a>
+					data-toggle="modal" data-target="#addBookModal">Add book</button> 
 
 				<form action="#" th:action="@{${'home/' + user.username}}"
 					th:object="${user}" method="get">
