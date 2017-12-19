@@ -34,14 +34,25 @@
 				<td th:text="${Book.authorLastName}"></td>
 				<td th:text="${Book.edition}"></td>
 				<td>
-					<form action="#"
-						th:action="@{${'userbooks/' + Book.ownerName}}"
+					<form action="#" th:action="@{${'userbooks/' + Book.ownerName}}"
 						th:object="${Book}" method="get">
 
-						<button type="submit" class="btn btn-secondary" style="border:none;">	<span th:text="${Book.ownerName}"> </span></button>
-					
+						<button type="submit" class="btn btn-secondary"
+							style="border: none;">
+							<span th:text="${Book.ownerName}"> </span>
+						</button>
+
 					</form>
 
+
+				</td>
+				
+				<td   >
+					<form action="#" th:action="@{${'userbooks/intrestIn/' + Book.bookCategoryId + ',' + Book.authorName +',' + Book.authorLastName}}" 	th:object="${Book}" method="get"
+					>
+						<span><input type=image src="images/intrestedin.png"
+							style="float: right; max-width: 32px; max-height: 32px; font-family: monospace;" /></span>
+					</form>
 
 				</td>
 		</th:block>

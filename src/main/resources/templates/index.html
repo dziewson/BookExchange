@@ -5,6 +5,97 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 <head>
+<style>
+.pagination {
+	display: inline-block;
+}
+
+.pagination a {
+	color: black;
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+	transition: background-color .3s;
+	border: 1px solid #ddd;
+}
+
+.pagination a.active {
+	background-color: #4CAF50;
+	color: white;
+	border: 1px solid #4CAF50;
+}
+
+.pagination a.disabled {
+	background-color: #4CAF50;
+	color: white;
+	border: 1px solid #4CAF50;
+}
+.pagination
+
+
+
+ 
+
+
+
+a
+
+
+
+
+
+
+:hover
+
+
+
+
+
+
+:not
+
+
+
+ 
+
+
+
+(
+.active
+
+
+
+ 
+
+
+
+)
+{
+background-color
+
+
+
+
+
+
+:
+
+
+
+ 
+
+
+
+#ddd
+
+
+
+
+
+
+;
+}
+</style>
 <title>Home</title>
 <meta charset="utf-8" />
 <meta name="viewport" content="initial-scale=1, maximum-scale=1">
@@ -26,10 +117,11 @@
 					th:src="${avatar}" style="max-width: 128px; max-height: 128px;" />
 			</a>
 				<p>
-					Hi, <span th:text="${user.username}"> </span>
+					Hi, <span th:text="${user.username}"> </span> <br> You are in
+					<span th:text="${user.city}"> </span>
 				</p>
 				<button class="btn navbar-btn text-left btn-info m-1"
-					data-toggle="modal" data-target="#addBookModal">Add book</button> 
+					data-toggle="modal" data-target="#addBookModal">Add book</button>
 
 				<form action="#" th:action="@{${'home/' + user.username}}"
 					th:object="${user}" method="get">
@@ -42,11 +134,11 @@
 			<td style="width: 45%">
 				<table class="table borderless">
 					<tr>
-						<td>
+						<td bgcolor="#e9ebee">
 							<form action="#" th:action="@{/home/publishPost}"
 								th:object="${post}" method="POST" enctype="utf8"
-								style="margin-top: 2%" id="postForm">
-								<div class="form-group" style="width:100%">
+								style="margin-top: 2%; background-color: #e9ebee" id="postForm">
+								<div class="form-group" style="width: 100%">
 									<textarea class="form-control" rows="3" cols="25"
 										th:field="*{text}" form="postForm"> Your text</textarea>
 
@@ -57,40 +149,76 @@
 							</form>
 						</td>
 					</tr>
-					<th:block th:each="Pos  : *{allPosts}">
-						
-						<tr>
-							<td bgcolor="#5BC0DE"th:text="${Pos.authorName} " style="text-align:center">  </td>  </tr>
-					<tr >
-							<td th:text="${Pos.text}" style="border-top: none !important; border-bottom:2px"></td> </tr>
-					
-					</th:block>
+
+					<th:block th:each="Pos  : ${postPage}">
+						<tr bgcolor="white"
+							style="width: 45%; border: 2px solid white; border-top-radius: 25px">
 
 
-				</table>
-			</td>
-			<td>
-				<table class="table borderless">
-
-					<th:block th:each="Book  : *{books}">
-						<tr>
+							<td><img th:src="${Pos.getAuthorDecodedImage()}"
+								style="max-width: 32px; max-height: 32px; font-family: monospace;" />
+								<span th:text="${Pos.authorName}"></span></td>
+						</tr>
+						<tr bgcolor="white"
+							style="width: 45%; border: 2px solid white; border-bottom-color: #e9ebee; border-bottom-radius: 25px;">
+							<td><form action="#"
+									th:action="@{${'home/intrest/' + Pos.bookCategory + 'sep' + Pos.text}}"
+									th:object="${Pos}" method="get">
+									<img th:src="${Pos.getDecodedImage()}"
+										style="max-width: 32px; max-height: 32px; font-family: monospace;"
+										th:if="${Pos.getDecodedImage() != ''}" /> <span
+										th:text="${Pos.text}"></span> <span><input type=image
+										src="images/intrestedin.png"
+										style="float: right; max-width: 32px; max-height: 32px; font-family: monospace;"
+										th:if="${Pos.bookPost}" /></span>
+								</form></td>
 						</tr>
 
+						<tr>
+							<td bgcolor="#e9ebee"></td>
+						</tr>
 					</th:block>
+					<tr>
+						<td bgcolor="#e9ebee" style="text-align: center">
+							<div th:fragment='paginationbar'>
+								<div>
+									<ul class='pagination'>
+										<li th:class="${page.firstPage}?'':''"><a
+											th:href='@{${page.url}(page=0,size=${page.size})}'>←
+												First</a></li>
+										<li th:class="${page.hasPreviousPage}? '' : ''"><a
+											th:if='${page.hasPreviousPage}'
+											th:href='@{${page.url}(page=${page.number-2},size=${page.size})}'
+											title='Go to previous page'>«</a></li>
+										<li th:each='item : ${page.items}'
+											th:class="${item.current}? '' : ''"><a
+											th:if='${not item.current}'
+											th:href='@{${page.url}(page=${item.number-1},size=${page.size})}'><span
+												th:text='${item.number}'>1</span></a></li>
+										<li th:class="${page.hasNextPage}? '' : ''"><a
+											th:href='@{${page.url}(page=${page.number},size=${page.size})}'
+											title='Go to next page'>»</a></li>
+										<li th:class="${page.lastPage}? 'disabled' : ''"><a
+											th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}'>Last
+												→</a></li>
+									</ul>
+								</div>
+							</div>
+
+						</td>
+					</tr>
 				</table>
-
-
-
-
 			</td>
+			<td></td>
 
-			<td style="width: 10%"><h4 class="text-center">Moje ksiazki
-				</h4> <th:block th:each="Book  : *{books}">
+			<td style="width: 10%"><h4 class="text-center">My books</h4> <th:block
+					th:each="Book  : *{userBooks}">
 					<table class="table borderless">
 						<tr>
-							<td><img th:src="${Book.getDecodedImage()}"
+							<td bgcolor="#e9ebee"><img
+								th:src="${Book.getDecodedImage()}"
 								style="max-width: 128px; max-height: 128px;" /></td>
-							<td th:text="${Book.title}"></td>
+							<td bgcolor="#e9ebee" th:text="${Book.title}"></td>
 						</tr>
 					</table></td>
 			</th:block>
@@ -130,12 +258,26 @@
 									placeholder="Author first name" th:field="*{authorName}"
 									style="width: 30;" /></td>
 							</tr>
+
 							<tr>
 								<td><input class="form-control"
 									placeholder="Author Last name" th:field="*{authorLastName}"
 									style="width: 30;" /></td>
 								<td><input class="form-control" placeholder="Edition"
 									th:field="*{edition}" style="width: 30;" /></td>
+							</tr>
+							<tr>
+								<td>
+									<div>
+										<select th:field="*{category}" class="form-control"
+											id="category" name="category">
+											<option value="uncategorized">Select category</option>
+											<option th:each="cat : ${categories}"
+												th:value="${cat.categoryName}"
+												th:text="${cat.id}+'.'+${cat.categoryName}"></option>
+										</select>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td>

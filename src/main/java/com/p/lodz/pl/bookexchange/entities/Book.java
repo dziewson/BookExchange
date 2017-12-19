@@ -1,5 +1,7 @@
 package com.p.lodz.pl.bookexchange.entities;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
@@ -30,6 +32,12 @@ public class Book {
 	private String edition;
 
 	private byte[] image;
+	
+	private String category;
+	
+	private long bookCategoryId;
+
+	private Timestamp dateTime;
 
 	@Id
 	@GeneratedValue
@@ -98,9 +106,39 @@ public class Book {
 	public void setImage(byte[] image) {
 		this.image = image;
 	}
-	
+
 	public String getDecodedImage() {
-		return ImageUtils.getDecodedImage(getImage());
+		if(image.length != 0) {
+			return ImageUtils.getDecodedImage(getImage());
+		}
+		return "";
+		
 	}
+
+	public Timestamp getDateTime() {
+		return dateTime;
+	}
+
+	public void setDateTime(Timestamp dateTime) {
+		this.dateTime = dateTime;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public long getBookCategoryId() {
+		return bookCategoryId;
+	}
+
+	public void setBookCategoryId(long bookCategoryId) {
+		this.bookCategoryId = bookCategoryId;
+	}
+	
+	
 
 }

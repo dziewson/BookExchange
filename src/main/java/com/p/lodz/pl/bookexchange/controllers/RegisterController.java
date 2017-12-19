@@ -51,7 +51,7 @@ public class RegisterController {
 		String password = accountData.getPassword();
 		userService.create(accountData);
 		securityService.autoLogin(accountData.getUsername(), password);
-		return "index";
+		return "redirect:/";
 	}
 
 }

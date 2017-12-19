@@ -6,7 +6,7 @@ import com.p.lodz.pl.bookexchange.entities.Book;
 
 public interface BookService {	
 
-	public Book findByOwner(String owner);
+	public List<Book> findByOwner(String owner);
 	
 	public Book findByTitle(String title);
 	

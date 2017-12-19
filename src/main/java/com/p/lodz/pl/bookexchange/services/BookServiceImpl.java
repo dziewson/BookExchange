@@ -15,7 +15,7 @@ public class BookServiceImpl implements BookService {
 	BookRepository bookRepo;
 
 	@Override
-	public Book findByOwner(String ownerName) {
+	public List<Book> findByOwner(String ownerName) {
 		return bookRepo.findByOwnerName(ownerName);
 	}
 

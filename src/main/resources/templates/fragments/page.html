@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" th:fragment="page"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="/BookExchange/src/main/resources/static/css/font-awesome.min.css"
+	type="text/css">
+<link rel="stylesheet"
+	href="/BookExchange/src/main/resources/static/css/bootstrap-4.0.0-alpha.6.css"
+	type="text/css">
+
+
+
+
+</head>
+
+<body>
+<th:block th:each="Pos  : *{page.content}">
+						
+						<tr>
+							<td bgcolor="#5BC0DE"th:text="${Pos.authorName} " style="text-align:center">  </td>  </tr>
+					<tr >
+							<td th:text="${Pos.text}" style="border-top: none !important; border-bottom:2px"></td> </tr>
+					
+					</th:block>
+
+
+
+
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+	<script
+		src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
+
+</body>
+
+</html>

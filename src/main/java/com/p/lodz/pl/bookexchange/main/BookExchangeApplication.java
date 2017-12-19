@@ -30,7 +30,9 @@ public class BookExchangeApplication {
 		return slr;
 	}
 
+	
 	public static void main(String[] args) {
+	
 		SpringApplication.run(BookExchangeApplication.class, args);
 	}
 
