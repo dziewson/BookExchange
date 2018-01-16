@@ -15,7 +15,7 @@ public class AuthorServiceImpl implements AuthorService {
 
 	@Override
 	public void save(Author author) {
-		if(authorRepository.findByAuthorNameAndAuthorLastName(author.getAuthorName(), author.getAuthorLastName()) == null) {
+		if(authorRepository.findByAuthorNameAndAuthorLastName(author.getAuthor()) == null) {
 			authorRepository.save(author);
 		}
 	}

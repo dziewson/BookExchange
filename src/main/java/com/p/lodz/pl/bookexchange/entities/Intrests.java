@@ -15,7 +15,7 @@ public class Intrests {
 	private long categoryId;
 	private long id;
 	private long userId;
-	private long authorValue;
+	private double authorToken;
 	@Id
 	@GeneratedValue
 	@Column(name = "id", unique = true, nullable = false)
@@ -38,11 +38,12 @@ public class Intrests {
 	public void setUserId(long userId) {
 		this.userId = userId;
 	}
-	public long getAuthorValue() {
-		return authorValue;
+	public double getAuthorToken() {
+		return authorToken;
 	}
-	public void setAuthorValue(long authorValue) {
-		this.authorValue = authorValue;
+	public void setAuthorToken(double authorToken) {
+		this.authorToken = authorToken;
 	}
+
 	
 }

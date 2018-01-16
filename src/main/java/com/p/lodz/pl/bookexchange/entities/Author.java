@@ -14,11 +14,9 @@ import javax.persistence.Table;
 public class Author {
 	private long id;
 
-	private String authorName;
-
-	private String authorLastName;
+	private String author;
 	
-	private long authorValue;
+	private double token;
 
 	@Id
 	@GeneratedValue
@@ -28,32 +26,26 @@ public class Author {
 		return id;
 	}
 
-	public String getAuthorName() {
-		return authorName;
+	public String getAuthor() {
+		return author;
 	}
 
-	public void setAuthorName(String authorName) {
-		this.authorName = authorName;
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
-	public String getAuthorLastName() {
-		return authorLastName;
+	public double getToken() {
+		return token;
 	}
 
-	public void setAuthorLastName(String authorLastName) {
-		this.authorLastName = authorLastName;
+	public void setToken(double token) {
+		this.token = token;
 	}
 
 	public void setId(long id) {
 		this.id = id;
 	}
 
-	public long getAuthorValue() {
-		return authorValue;
-	}
-
-	public void setAuthorValue(long authorValue) {
-		this.authorValue = authorValue;
-	}
+	
 
 }

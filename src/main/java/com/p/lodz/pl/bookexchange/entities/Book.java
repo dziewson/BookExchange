@@ -23,9 +23,8 @@ public class Book {
 
 	private String title;
 
-	private String authorName;
+	private String author;
 
-	private String authorLastName;
 
 	private String ownerName;
 
@@ -63,20 +62,13 @@ public class Book {
 		this.title = title;
 	}
 
-	public String getAuthorName() {
-		return authorName;
+
+	public String getAuthor() {
+		return author;
 	}
 
-	public void setAuthorName(String authorName) {
-		this.authorName = authorName;
-	}
-
-	public String getAuthorLastName() {
-		return authorLastName;
-	}
-
-	public void setAuthorLastName(String authorLastName) {
-		this.authorLastName = authorLastName;
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 	public String getOwnerName() {

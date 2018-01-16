@@ -76,33 +76,8 @@ public class HomeController {
 			Page<Post> postPage = postService.findAll(pageable);
 			PageWrapper<Post> page = new PageWrapper<Post>(postPage, "/");
 			model.addAttribute("page", page);
-			List<Double> catIds = new ArrayList<>();
-			List<Double> authorVals = new ArrayList<>();
-			List<Double> results = new ArrayList<>();
-			List<Intrests> intrests = intrestService.findAllByUserId(user.getID());
-			for(Intrests intr : intrests) {
-				catIds.add(new Double(intr.getCategoryId()));
-				authorVals.add(new Double(intr.getAuthorValue()));
-				results.add(new Double(1));
-			}
-			/*catIds.forEach(d -> System.out.println(d));
-			authorVals.forEach(d -> System.out.println(d));
-			results.forEach(d -> System.out.println(d));*/
-		/*	List<Double> badCatIds = getBadCatIds(catIds);
-			List<Double> badAuthorVals = getBadAuthorsVals(authorVals, badCatIds.size());
-			catIds.addAll(badCatIds);
-			authorVals.addAll(badAuthorVals);
-			for(int i = 0 ; i < badCatIds.size() ; i++) {
-				results.add(new Double(0));
-			}*/
-			catIds.add(new Double(12));
-			authorVals.add(new Double(333));
-			results.add(new Double(0));
-			System.out.println(1);
-			NeuralNetwork net = createNeuralNet(catIds,authorVals,results);
-			System.out.println(2);
-			model.addAttribute("postPage", clearAndSortPostList(postPage.getContent(), user.getUsername(), net));
-			System.out.println(3);
+		
+			model.addAttribute("postPage", postPage.getContent());
 			List<Category> cat = catService.findAll();
 			model.addAttribute("categories", cat);
 			model.addAttribute("catName", catName);
@@ -117,30 +92,6 @@ public class HomeController {
 		return "index";
 	}
 	
-	private List<Double> getBadCatIds(List<Double> catIds) {
-		List<Double> badCatIds = new ArrayList<>();
-		for(Category cat : catService.findAll()) {
-			if(!checkIfListContainsElement(catIds, new Double(cat.getId()))) {
-				badCatIds.add(new Double(cat.getId()));
-			}
-		}
-		return badCatIds;
-	}
-	
-	private List<Double> getBadAuthorsVals(List<Double> authorVals, int catIdsSize ) {
-		List<Double> badCatIds = new ArrayList<>();
-		for(Author aut : authorService.findAll()) {
-			if(!checkIfListContainsElement(authorVals, new Double(aut.getAuthorValue()))) {
-				badCatIds.add(new Double(aut.getAuthorValue()));
-			}
-		}
-		while(badCatIds.size() < catIdsSize) {
-			Random r = new Random();
-			badCatIds.add(r.nextDouble());
-		}
-		return badCatIds;
-	}
-	
 	private boolean checkIfListContainsElement(List<Double> list, Double value) {
 		for(Double val : list) {
 			if(val.doubleValue() == value.doubleValue()) {
@@ -150,69 +101,6 @@ public class HomeController {
 		return false;
 	}
 	
-	public NeuralNetwork createNeuralNet(List<Double> catIds, List<Double> authorVals, List<Double> results) {
-		NeuralNetwork neuralNetwork = new Perceptron(2, 1);
-		System.out.println(11);
-		DataSet trainingSet = 
-                new  DataSet(2, 1); 
-		System.out.println(12);
-		for(int i = 0 ; i < catIds.size() ; i++) {
-			System.out.println(1+"a" + i);
-			trainingSet.
-			addRow (new DataSetRow (new double[]{catIds.get(i).doubleValue(), authorVals.get(i).doubleValue()}, 
-			 new double[]{results.get(i).doubleValue()})); 
-			System.out.println(1+"b" + i);
-		}
-		System.out.println(139);
-		neuralNetwork.learn(trainingSet);
-		System.out.println(13);
-		return neuralNetwork;
-		
-	}
-
-	private List<Post> clearAndSortPostList(List<Post> posts, String userName, NeuralNetwork net) {
-		List<Post> output = new ArrayList<>();
-		for (Post post : posts) {
-			if (!checkLocationForUser(userService.findByName((post.getAuthorName())))
-					&& !post.getAuthorName().equals(userName)) {
-				if(post.isBookPost()) {
-					System.out.println(22);
-					String text = post.getText();
-					Double catVal = new Double(catService.findByCategoryName(post.getBookCategory()).getId());			
-				//	System.out.println(catVal);
-					String authorName = text.substring(text.indexOf(WRITTEN_BY) + WRITTEN_BY.length(), text.lastIndexOf(" "));
-					String authorLastName = text.substring(text.lastIndexOf(" ") + 1);	
-					Double authorVal = new Double(countStringAsciValue(authorName,authorLastName));
-					System.out.println(23);
-				//	System.out.println(authorVal);
-					net.setInput(catVal.doubleValue(), authorVal.doubleValue());
-					System.out.println(24);
-					net.calculate();
-					System.out.println(25);
-				//	System.out.println(net.getOutput()[net.getOutput().length - 1]);
-					if(net.getOutput()[net.getOutput().length - 1] == 1) {
-						output.add(post);
-					}
-					System.out.println(26);
-				}else {
-					output.add(post);
-				}
-			
-				
-				
-			}
-		}
-		output.sort((Post b, Post b2) -> {
-			if (b.getDateTime().after(b2.getDateTime())) {
-				return -1;
-			} else if (b.getDateTime().before(b2.getDateTime())) {
-				return 1;
-			} else {
-				return 0;
-			}
-		});
-		return output;
-	}
 
 	private boolean checkLocationForUser(UserData user) {
 		return GetLocation.distFromInMeters(Double.parseDouble(currentLocation.getLatitude()),
@@ -271,8 +159,7 @@ public class HomeController {
 		post.setBookCategoryId(book.getBookCategoryId());
 		post.setBookPost(true);
 		Author author = new Author();
-		author.setAuthorName(book.getAuthorName());
-		author.setAuthorLastName(book.getAuthorLastName());
+		author.setAuthorName(book.getAuthor());
 		author.setAuthorValue(countStringAsciValue(book.getAuthorName(), book.getAuthorLastName()));
 		authorService.save(author);
 		Intrests intrest = new Intrests();
